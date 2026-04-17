@@ -84,31 +84,29 @@ function MarketplacePage() {
                 className="w-full rounded-lg border border-border bg-background py-2.5 pl-10 pr-3 text-sm focus:border-primary focus:outline-none"
               />
             </div>
-            {tab === "projects" && (
+            <div className={cn(tab !== "projects" && "invisible pointer-events-none")} aria-hidden={tab !== "projects"}>
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
-                className="rounded-lg border border-border bg-background px-3 py-2.5 text-sm font-medium focus:border-primary focus:outline-none"
+                className="h-full w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm font-medium focus:border-primary focus:outline-none"
               >
                 <option>Newest</option>
                 <option>Highest Pay</option>
                 <option>Best Match</option>
               </select>
-            )}
-            {tab === "projects" && (
-              <div className="flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2 text-sm">
-                <span className="text-xs font-semibold text-muted-foreground">Up to ₹{(budget / 1000).toFixed(0)}K</span>
-                <input
-                  type="range"
-                  min={5000}
-                  max={500000}
-                  step={5000}
-                  value={budget}
-                  onChange={(e) => setBudget(Number(e.target.value))}
-                  className="w-32 accent-primary"
-                />
-              </div>
-            )}
+            </div>
+            <div className={cn("flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2 text-sm", tab !== "projects" && "invisible pointer-events-none")} aria-hidden={tab !== "projects"}>
+              <span className="text-xs font-semibold text-muted-foreground whitespace-nowrap">Up to ₹{(budget / 1000).toFixed(0)}K</span>
+              <input
+                type="range"
+                min={5000}
+                max={500000}
+                step={5000}
+                value={budget}
+                onChange={(e) => setBudget(Number(e.target.value))}
+                className="w-32 accent-primary"
+              />
+            </div>
           </div>
 
           <div className="mt-3 flex flex-wrap gap-2">
@@ -132,17 +130,17 @@ function MarketplacePage() {
         <div className="mt-8">
           {tab === "projects" ? (
             filteredProjects.length === 0 ? (
-              <EmptyState />
+              <EmptyState key="empty-projects" />
             ) : (
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {filteredProjects.map((p) => <ProjectCard key={p.id} project={p} />)}
+              <div key="grid-projects" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {filteredProjects.map((p) => <ProjectCard key={`p-${p.id}`} project={p} />)}
               </div>
             )
           ) : filteredCandidates.length === 0 ? (
-            <EmptyState />
+            <EmptyState key="empty-talent" />
           ) : (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredCandidates.map((c) => <TalentCard key={c.id} candidate={c} />)}
+            <div key="grid-talent" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredCandidates.map((c) => <TalentCard key={`c-${c.id}`} candidate={c} />)}
             </div>
           )}
         </div>
