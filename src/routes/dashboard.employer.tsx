@@ -50,10 +50,10 @@ const items: SidebarItem[] = [
   { label: "Settings", to: "/dashboard/employer", icon: Settings },
 ];
 
-const projectRows = [
-  { name: "ESP32 IoT Dashboard", budget: "₹22,000", applicants: 12, status: "Active" },
-  { name: "ML Churn Prediction", budget: "₹35,000", applicants: 18, status: "In Review" },
-  { name: "React HR Dashboard", budget: "₹28,000", applicants: 9, status: "Completed" },
+const seedRows: ProjectRow[] = [
+  { id: "seed-1", name: "ESP32 IoT Dashboard", budget: "₹22,000", applicants: 12, status: "Active" },
+  { id: "seed-2", name: "ML Churn Prediction", budget: "₹35,000", applicants: 18, status: "In Review" },
+  { id: "seed-3", name: "React HR Dashboard", budget: "₹28,000", applicants: 9, status: "Completed" },
 ];
 
 const statusColors: Record<string, string> = {
@@ -64,6 +64,29 @@ const statusColors: Record<string, string> = {
 
 function EmployerDashboard() {
   const notify = () => toast("Join the waitlist — launching soon! 🚀");
+  const [posted, setPosted] = useState<ProjectRow[]>([]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("tf_projects");
+      if (!raw) return;
+      const parsed: PostedProject[] = JSON.parse(raw);
+      const rows: ProjectRow[] = parsed.map((p) => ({
+        id: `posted-${p.id}`,
+        name: p.title,
+        budget: `₹${formatINR(p.budgetMin)}–₹${formatINR(p.budgetMax)}`,
+        applicants: p.applicants ?? 0,
+        status: p.status ?? "Active",
+        isNew: true,
+      }));
+      setPosted(rows);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const allRows: ProjectRow[] = [...posted, ...seedRows];
+  const activeCount = allRows.filter((r) => r.status === "Active").length;
 
   return (
     <div className="flex">
@@ -101,9 +124,18 @@ function EmployerDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {projectRows.map((p) => (
-                  <tr key={p.name} className="border-b border-border/60 last:border-0">
-                    <td className="px-3 py-3 font-semibold text-foreground">{p.name}</td>
+                {allRows.map((p) => (
+                  <tr key={p.id} className="border-b border-border/60 last:border-0">
+                    <td className="px-3 py-3 font-semibold text-foreground">
+                      <div className="flex items-center gap-2">
+                        <span>{p.name}</span>
+                        {p.isNew && (
+                          <span className="rounded-full bg-gradient-button px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary-foreground">
+                            New
+                          </span>
+                        )}
+                      </div>
+                    </td>
                     <td className="px-3 py-3">{p.budget}</td>
                     <td className="px-3 py-3">{p.applicants}</td>
                     <td className="px-3 py-3"><BadgeChip variant={statusColors[p.status]}>{p.status}</BadgeChip></td>
