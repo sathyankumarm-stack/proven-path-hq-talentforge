@@ -61,9 +61,22 @@ function MarketplacePage() {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("Newest");
   const [budget, setBudget] = useState(500000);
+  const [postedIds, setPostedIds] = useState<Set<number>>(new Set());
+  const [allProjects, setAllProjects] = useState<Project[]>(seedProjects);
+
+  useEffect(() => {
+    try {
+      const raw = JSON.parse(localStorage.getItem("tf_projects") ?? "[]") as PostedProject[];
+      const mapped = raw.map(toMarketplaceProject);
+      setPostedIds(new Set(mapped.map((p) => p.id)));
+      setAllProjects([...mapped, ...seedProjects]);
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const filteredProjects = useMemo(() => {
-    let r = projects.filter((p) => filter === "All" || p.domain === filter);
+    let r = allProjects.filter((p) => filter === "All" || p.domain === filter);
     if (query) {
       const q = query.toLowerCase();
       r = r.filter((p) => p.title.toLowerCase().includes(q) || p.skills.some((s) => s.toLowerCase().includes(q)));
@@ -71,7 +84,7 @@ function MarketplacePage() {
     r = r.filter((p) => p.budgetMin <= budget);
     if (sort === "Highest Pay") r = [...r].sort((a, b) => b.budgetMin - a.budgetMin);
     return r;
-  }, [filter, query, sort, budget]);
+  }, [allProjects, filter, query, sort, budget]);
 
   const filteredCandidates = useMemo(() => {
     let r = candidates.filter((c) => filter === "All" || c.domain === filter);
