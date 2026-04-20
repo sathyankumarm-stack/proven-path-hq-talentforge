@@ -105,8 +105,8 @@ function Hero() {
                 Start Your Free Assessment <ArrowRight className="ml-1 h-4 w-4" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" onClick={notify} className="border-foreground/20">
-              Post a Project
+            <Button asChild size="lg" variant="outline" className="border-foreground/20">
+              <Link to="/post-project">Post a Project</Link>
             </Button>
           </div>
 
