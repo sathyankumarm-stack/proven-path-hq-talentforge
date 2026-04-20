@@ -37,6 +37,8 @@ function toMarketplaceProject(p: PostedProject): Project {
     applicants: p.applicants ?? 0,
     company: "Your Company",
     posted: p.posted ?? "just now",
+    description: p.description,
+    deliverables: p.deliverables,
   };
 }
 
