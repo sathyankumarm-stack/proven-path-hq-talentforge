@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, FileText, ClipboardCheck, ShieldCheck, TrendingUp, Clock, Wallet, Zap } from "lucide-react";
@@ -38,8 +38,10 @@ function ForEmployersPage() {
             Access India's largest pool of AI-assessed, blockchain-verified engineering talent. Post a project and get matched candidates in 48 hours.
           </motion.p>
           <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.2 }} className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button size="lg" onClick={notify} className="bg-gradient-button text-primary-foreground shadow-glow">
-              Post a Project Free <ArrowRight className="ml-1 h-4 w-4" />
+            <Button asChild size="lg" className="bg-gradient-button text-primary-foreground shadow-glow">
+              <Link to="/post-project">
+                Post a Project Free <ArrowRight className="ml-1 h-4 w-4" />
+              </Link>
             </Button>
             <Button size="lg" variant="outline" onClick={notify}>Book a Demo</Button>
           </motion.div>
