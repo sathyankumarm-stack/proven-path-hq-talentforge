@@ -17,8 +17,8 @@ export function TFESGauge({
       <svg width={size} height={size} className="-rotate-90">
         <defs>
           <linearGradient id="tfes-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="oklch(0.55 0.22 295)" />
-            <stop offset="100%" stopColor="oklch(0.72 0.17 25)" />
+            <stop offset="0%" stopColor="oklch(0.62 0.18 255)" />
+            <stop offset="100%" stopColor="oklch(0.42 0.06 255)" />
           </linearGradient>
         </defs>
         <circle
