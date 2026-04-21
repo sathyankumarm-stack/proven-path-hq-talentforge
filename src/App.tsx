@@ -1,3 +1,8 @@
 export default function App() {
-  return <h1>Hello Working ✅</h1>;
+  return (
+    <div>
+      <h1>🚀 My App is Live</h1>
+      <p>Deployment successful</p>
+    </div>
+  );
 }
