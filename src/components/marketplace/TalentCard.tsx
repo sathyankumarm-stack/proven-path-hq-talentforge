@@ -13,7 +13,7 @@ export function TalentCard({ candidate }: { candidate: Candidate }) {
   const notify = () => toast("Join the waitlist — launching soon! 🚀");
 
   return (
-    <article className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-glow">
+    <article className="card-hover flex flex-col rounded-2xl border border-border bg-card p-6 shadow-card">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-button text-sm font-bold text-primary-foreground">
